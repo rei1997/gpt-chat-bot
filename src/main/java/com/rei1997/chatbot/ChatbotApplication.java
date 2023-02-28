@@ -4,10 +4,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 import okhttp3.*;
 import org.json.*;
-import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -20,8 +23,8 @@ public class ChatbotApplication {
 		SpringApplication.run(ChatbotApplication.class, args);
 	}
 
-	@Value("${chatgpt.token-bearer}")
-	String bearer;
+	// @Value("${chatgpt.token-bearer}")
+	// String bearer;
 	// @Bean
 	// CommandLineRunner runner(){	
 	// 	return args -> {
@@ -38,7 +41,7 @@ public class ChatbotApplication {
 	
 	// 		// Send a POST request to the chatGPT API
 	// 		MediaType mediaType = MediaType.parse("application/json");
-	// 		RequestBody body = RequestBody.create(mediaType, data.toString());
+	// 		RequestBody body = RequestBody.create(data.toString(), mediaType);
 	// 		Request request = new Request.Builder()
 	// 				.url("https://api.openai.com/v1/completions")
 	// 				.post(body)
@@ -48,8 +51,14 @@ public class ChatbotApplication {
 	// 		Response response = client.newCall(request).execute();
 	
 	// 		// Parse the response and print the generated text
-	// 		JSONObject jsonResponse = new JSONObject(response.body().string());
-	// 		System.out.println("Generated text: " + jsonResponse.t);
+	// 		String jsonResponseString = new BufferedReader(new InputStreamReader(
+	// 			response.body().byteStream()))
+	// 			.lines().collect(
+	// 				Collectors.joining("")
+	// 			);
+	// 		System.out.println(jsonResponseString);
+	// 		JSONObject jsonResponse = new JSONObject(jsonResponseString);
+	// 		System.out.println("Generated text: " + jsonResponse.getJSONArray("choices").getJSONObject(0).getString("text").trim());
 			
 
 	// 	};

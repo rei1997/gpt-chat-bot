@@ -1,11 +1,13 @@
 package com.rei1997.chatbot.service.lineBot;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,15 @@ import com.linecorp.bot.model.response.BotApiResponse;
 import com.rei1997.chatbot.model.lineBot.Event;
 import com.rei1997.chatbot.model.lineBot.LineBotEvent;
 import com.rei1997.chatbot.model.lineBot.Message;
+import com.rei1997.chatbot.service.chatGPT.ChatGptService;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
 @Configuration
+@RequiredArgsConstructor
 public class LineBotService {
+    private final ChatGptService chatGptService;
     @Value("${line.channel.secret}")
     String channelSecret;
     @Value("${line.channel.access-token}")
@@ -43,7 +50,7 @@ public class LineBotService {
         return signature.equals(requestSignature);
     }
 
-    public void getTextMessageAndReply(LineBotEvent lineBotEvent) {
+    public void getTextMessageAndReply(LineBotEvent lineBotEvent) throws JSONException, IOException {
         String textMessage = "";
         String replyToken = "";
         boolean textFound = false;
@@ -63,10 +70,10 @@ public class LineBotService {
         replyToLineClient(replyToken,textMessage);
     }
 
-    private void replyToLineClient(String replyToken, String replyMessange) {
+    private void replyToLineClient(String replyToken, String messange) throws JSONException, IOException {
         LineMessagingClient client = LineMessagingClient.builder(channelAccessToken).build();
-
-        TextMessage textMessage = new TextMessage(replyMessange);
+        String reply= chatGptService.callChatGpt(messange);
+        TextMessage textMessage = new TextMessage(reply);
         ReplyMessage replyMessage = new ReplyMessage(replyToken,textMessage);
 
         BotApiResponse botApiResponse;

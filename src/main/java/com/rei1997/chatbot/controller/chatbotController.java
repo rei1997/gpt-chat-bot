@@ -1,5 +1,8 @@
 package com.rei1997.chatbot.controller;
 
+import java.io.IOException;
+
+import org.json.JSONException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +24,7 @@ import com.rei1997.chatbot.service.lineBot.LineBotService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping(value="api/v1",produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value="chatbot-api/v1",produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class chatbotController {
     private final LineBotService lineBotService;
@@ -42,8 +45,8 @@ public class chatbotController {
 
         try {
             LineBotEvent lineBotEvent =mapper.readValue(json, LineBotEvent.class);
-            lineBotService.getTextMessageAndReply(lineBotEvent);
-        } catch (JacksonException e) {
+                lineBotService.getTextMessageAndReply(lineBotEvent);
+        } catch (JSONException | IOException e) {
             e.printStackTrace();
         }
 
