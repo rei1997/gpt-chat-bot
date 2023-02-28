@@ -65,6 +65,11 @@
     		<artifactId>commons-codec</artifactId>
     		<version>1.10</version>
 		</dependency>
+		<dependency>
+			<groupId>com.linecorp.bot</groupId>
+			<artifactId>line-bot-api-client</artifactId>
+			<version>5.0.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>

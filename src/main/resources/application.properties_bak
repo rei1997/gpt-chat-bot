@@ -1,0 +1,19 @@
+server.port=8443
+# 憑證別名
+server.ssl.key-alias=<Your SSL Key Alias>
+# 使用ssl連線
+server.ssl.enabled=true
+# 憑證路徑
+server.ssl.key-store=classpath:keystore.p12
+# 憑證密碼
+server.ssl.key-store-password=<Your SSL Key Password>
+# 憑證格式
+server.ssl.key-store-type=PKCS12
+
+
+#Line Properties
+line.channel.secret=<Your Line Channel Secret>
+line.channel.access-token=<Yiur Line Channel Access Token>
+
+#ChatGPT Properties
+chatgpt.token-bearer=<ChatGPT Token>
